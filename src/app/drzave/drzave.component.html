@@ -1,0 +1,54 @@
+<div class="container">
+
+    <form [formGroup]="pretragaForm" (ngSubmit)="Pretrazi()">
+
+        <input type="text" placeholder="unesite termin za pretragu" formControlName="terminPretrage" >
+
+        <button [disabled]="!pretragaForm.valid"  class="btn btn-primary">Pretrazi</button>
+
+    </form>
+
+    <button class="btn-primary" (click)="SortirajPoImenu()">Sortiraj po imenu</button>
+    <button class="btn-primary" (click)="SortirajPoBrojuStanovnika2()">Sortiraj po broju stanovnika</button>
+    <br>
+    <hr>
+
+    <button class="btn-info" *ngFor="let kontinent of kontinenti" (click)="FilterRegija(kontinent)" > {{ kontinent }} </button>
+    
+    <h3> Ukupni broj stanovnika: {{ ukupanBrojStanovnika  | number }} </h3>
+
+    <h3> Ukupna povrsina: {{ ukupnaPovrsina | number }} km2 </h3>
+
+    <table class="table table-striped">
+
+        <thead>
+            <th>Naziv drzave</th>
+            <th>Glavni Grad</th>
+            <th>Regija</th>
+            <th>Podregija</th>
+            <th>Povrsina / km2</th>
+            <th>Broj stanovnika</th>
+            <th>Zastava</th>
+            <th>Kod</th>
+            <th>Clanica UN-a</th>
+            <th></th>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let drzava of listaDrzavaZaDisplay">
+                <td> {{ drzava.name.common }} </td>
+                <td> <span *ngIf="drzava.capital?.length"> {{ drzava.capital[0] | uppercase }} </span> </td>
+                <td> {{ drzava.region }} </td>
+                <td> {{ drzava.subregion }} </td>
+                <td> {{ drzava.area | number }} </td>
+                <td> {{ drzava.population | number }} </td>
+                <td> <img class="zastava" src="{{drzava.flags.png}}"> </td>
+                <td> {{ drzava.cioc }} </td>
+                <td> {{ drzava.unMember }} </td>
+                <td> <button class="btn btn-info" [routerLink]="['/drzava-detalji', drzava.cioc]">Detalji</button></td>
+            </tr>
+        </tbody>
+
+    </table>
+
+</div>
